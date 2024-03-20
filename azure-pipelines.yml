@@ -1,0 +1,70 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+pr:
+- '*'
+trigger:
+- main
+
+jobs:
+  # Run Infracost on pull requests
+  - job: infracost_pull_request_checks
+    condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
+    displayName: Run Infracost on pull requests
+    pool:
+      vmImage: ubuntu-latest
+
+    steps:
+    - checkout: self
+      persistCredentials: true
+      fetchDepth: 0
+    - task: InfracostSetup@2
+      inputs:
+        apiKey: 'ico-0LLqDR3ojP26GDGA1ShYcCTOEMiOHrrk'
+        version: '0.10.34'
+
+    - script: |
+        git clone $(Build.Repository.Uri) --branch=main --single-branch /tmp/base
+      displayName: Checkout base branch
+
+    # Generate an Infracost cost estimate baseline from the comparison branch, so that Infracost can compare the cost difference.
+    - bash: |
+        ls
+        cat /tmp/infracost-base.json
+        pwd
+        cd /tmp/base
+        infracost breakdown --path . \
+          --format=json \
+          --out-file=/tmp/infracost-base.json
+      displayName: Generate Infracost cost estimate baseline
+
+    # Generate an Infracost diff and save it to a JSON file..
+    - bash: |
+        cd -
+        pwd
+        infracost diff --path . --compare-to /tmp/infracost-base.json --out-file /tmp/infracost.json
+        # infracost diff --path=. \
+        #   --format=json \
+        #   --compare-to=/tmp/infracost-base.json \
+        #   --out-file=/tmp/infracost.json
+        ls /tmp
+      displayName: Generate Infracost diff
+      #################################################
+    - script: |
+        curl -sSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo gpg --dearmor -o /usr/share/keyrings/githubcli-archive-keyring.gpg
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+        sudo apt-get update
+        sudo apt-get install gh
+      displayName: 'Install GitHub CLI'
+
+    - script: |
+        echo tocken = $(GITHUBTOCKEN)
+        echo $(GITHUBTOCKEN) > token
+        gh auth login --with-token < token
+      displayName: 'Authenticate with GitHub'
+
+
+    - script: |
+        gh pr comment $(System.PullRequest.PullRequestNumber) -R $(Build.Repository.Uri) -F /tmp/infracost.json
+      displayName: 'Post comment on pull request'
