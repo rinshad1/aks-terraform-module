@@ -12,9 +12,9 @@ aks_subnet_address_prefix = "192.168.0.0/24"
 node_pool_name            = "defaultpool"
 vm_size                   = "Standard_DS2_v2"
 enable_auto_scaling       = "true"
-max_count                 = 5
-min_count                 = "4"
-os_disk_size_gb           = 30
+max_count                 = 3
+min_count                 = "2"
+os_disk_size_gb           = 40
 node_pool_type            = "VirtualMachineScaleSets"
 zones                     = [1, 2, 3]
 
