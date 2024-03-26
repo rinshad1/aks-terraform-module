@@ -69,7 +69,7 @@ jobs:
       displayName: 'Post comment on pull request'
     - task: SlackNotification@6
       inputs:
-        SlackApiToken: 'xoxp-6868475659009-6852896351621-6860861125715-727b54f9162952d612e3f1ee5541be61'
+        SlackApiToken: 'xoxp-6868475659009-6852896351621-6847185704887-f2ee8d68aabb911ffc2e4d69ae62a657'
         MessageAuthor: 'Azure DevOps'
         Channel: 'test-channel'
         NotificationType: 'ChatMessage'
