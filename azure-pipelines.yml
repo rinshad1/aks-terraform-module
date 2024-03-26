@@ -73,5 +73,4 @@ jobs:
         MessageAuthor: 'Azure DevOps'
         Channel: '#test-channel'
         NotificationType: 'ChatMessage'
-        Message: |
-              echo test Message....!!b
+        Message: 'echo test Message...  $(date:yyyyMMdd)$(rev:.r) !!'
