@@ -74,4 +74,4 @@ jobs:
         Channel: '#test-channel'
         NotificationType: 'ChatMessage'
         Message: |
-              echo test Message....!!
+              echo test Message....!!b
