@@ -71,6 +71,6 @@ jobs:
       inputs:
         SlackApiToken: $(SLACKTOCKEN)
         MessageAuthor: 'Azure DevOps'
-        Channel: 'test-channel'
+        Channel: '#test-channel'
         NotificationType: 'ChatMessage'
         Message: 'test Message....!!'
