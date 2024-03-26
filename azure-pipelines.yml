@@ -64,7 +64,6 @@ jobs:
         gh auth login --with-token < token
       displayName: 'Authenticate with GitHub'
 
-
     - script: |
         gh pr comment $(System.PullRequest.PullRequestNumber) -R $(Build.Repository.Uri) -F /tmp/infracost.json
       displayName: 'Post comment on pull request'
