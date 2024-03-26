@@ -73,4 +73,5 @@ jobs:
         MessageAuthor: 'Azure DevOps'
         Channel: '#test-channel'
         NotificationType: 'ChatMessage'
-        Message: 'test Message....!!'
+        Message: |
+              echo test Message....!!
