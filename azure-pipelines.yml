@@ -78,6 +78,8 @@ jobs:
           'test Message...  $(date:yyyyMMdd)$(rev:.r) !!'
           echo $(SLACKTOCKEN)
           $(SLACKTOCKEN) - ooo
+      env:
+        SLACKTOCKEN : $(SLACKTOCKEN)    
         # FooterText: 'aaaaaaaaaaaaaaaa'
 
     # - task: SlackNotification@6
