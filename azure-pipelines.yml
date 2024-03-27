@@ -69,36 +69,44 @@ jobs:
       displayName: 'Post comment on pull request'
 
     - powershell: |
-        # Read the contents of the Infracost JSON report file
-        $infracostReport = Get-Content -Raw -Path /tmp/infracost.json | ConvertFrom-Json
+        $jsonFile = /tmp/infracost.json
+        $jsonContent = Get-Content $jsonFile -Raw
 
-        # Extract relevant information from the Infracost report
-        $summary = $infracostReport.summary
-        $totalHourlyCost = $summary.totalHourlyCost
-        $totalMonthlyCost = $summary.totalMonthlyCost
+        # Check if the content is valid JSON
+        try {
+            $jsonObject = $jsonContent | ConvertFrom-Json
+            $isJson = $true
+        }
+        catch {
+            $isJson = $false
+        }
 
-        # Generate the message to be sent to Slack
-        $message = @"
-        Infracost Report Summary:
-        Total Hourly Cost: $($totalHourlyCost)
-        Total Monthly Cost: $($totalMonthlyCost)
-        "@
+        if ($isJson) {
+            $message = "The contents of the JSON file are:"
+            $message += "`n$jsonContent"
+        }
+        else {
+            $message = "The file is not valid JSON."
+        }
 
-        # Set the message as an environment variable
-        Write-Host "##vso[task.setvariable variable=infracostMessage]$message"
-      displayName: 'Read Infracost Report and Generate Message' 
+        Write-Host $message
+        Write-Output ("##vso[task.setvariable variable=isJson;isOutput=true]$isJson")
+        Write-Output ("##vso[task.setvariable variable=message;isOutput=true]$message")
+      displayName: 'Check JSON File'
+
     - task: SlackNotification@6
       inputs:
         SlackApiToken: $(SLACKTOCKEN)
         MessageAuthor: 'Azure DevOps'
         Channel: '#test-channel'
         NotificationType: 'ChatMessage'
-        # UseVariableForMessage: true
+        UseVariableForMessage: true
         Message: |
-          $(infracostMessage)
+          $(message)
+      condition: eq(variables['isJson'], 'True')
 
-      env:
-        SLACKTOCKEN : $(GITHUBTOCKEN)    
+      # env:
+      #   SLACKTOCKEN : $(GITHUBTOCKEN)    
         # FooterText: 'aaaaaaaaaaaaaaaa'
 
     # - task: SlackNotification@6
