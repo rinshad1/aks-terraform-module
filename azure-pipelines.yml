@@ -69,7 +69,7 @@ jobs:
       displayName: 'Post comment on pull request'
 
     - powershell: |
-        $jsonFile = "path/to/your/json/file.json"
+        $jsonFile = /tmp/infracost.json
 
         if (Test-Path $jsonFile) {
             $jsonContent = Get-Content $jsonFile -Raw
