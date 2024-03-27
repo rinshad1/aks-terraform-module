@@ -73,7 +73,7 @@ jobs:
         MessageAuthor: 'Azure DevOps'
         Channel: '#test-channel'
         NotificationType: 'ChatMessage'
-        UseVariableForMessage: true
+        # UseVariableForMessage: true
         Message: |
           Test message... $(Build.BuildId) $(Build.BuildNumber) !!
       env:
