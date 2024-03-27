@@ -65,14 +65,28 @@ jobs:
       displayName: 'Authenticate with GitHub'
 
     - script: |
-        pwd
         gh pr comment $(System.PullRequest.PullRequestNumber) -R $(Build.Repository.Uri) -F /tmp/infracost.json
       displayName: 'Post comment on pull request'
 
     - powershell: |
-        $currentDirectory = Get-Location
-        Write-Host "##vso[task.setvariable variable=pwd]$currentDirectory"
-      displayName: 'Set Current Directory'  
+        # Read the contents of the Infracost JSON report file
+        $infracostReport = Get-Content -Raw -Path 'path/to/infracost-report.json' | ConvertFrom-Json
+
+        # Extract relevant information from the Infracost report
+        $summary = $infracostReport.summary
+        $totalHourlyCost = $summary.totalHourlyCost
+        $totalMonthlyCost = $summary.totalMonthlyCost
+
+        # Generate the message to be sent to Slack
+        $message = @"
+        Infracost Report Summary:
+        Total Hourly Cost: $($totalHourlyCost)
+        Total Monthly Cost: $($totalMonthlyCost)
+        "@
+
+        # Set the message as an environment variable
+        Write-Host "##vso[task.setvariable variable=infracostMessage]$message"
+      displayName: 'Read Infracost Report and Generate Message' 
     - task: SlackNotification@6
       inputs:
         SlackApiToken: $(SLACKTOCKEN)
@@ -81,8 +95,8 @@ jobs:
         NotificationType: 'ChatMessage'
         # UseVariableForMessage: true
         Message: |
-          Test message... $(Build.BuildId) $(Build.BuildNumber) !!
-          pwd = $(pwd)
+          $(infracostMessage)
+
       env:
         SLACKTOCKEN : $(GITHUBTOCKEN)    
         # FooterText: 'aaaaaaaaaaaaaaaa'
