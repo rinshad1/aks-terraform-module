@@ -70,7 +70,7 @@ jobs:
 
     - powershell: |
         # Read the contents of the Infracost JSON report file
-        $infracostReport = Get-Content -Raw -Path 'path/to/infracost-report.json' | ConvertFrom-Json
+        $infracostReport = Get-Content -Raw -Path /tmp/infracost.json | ConvertFrom-Json
 
         # Extract relevant information from the Infracost report
         $summary = $infracostReport.summary
