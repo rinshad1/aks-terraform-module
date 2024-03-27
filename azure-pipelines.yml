@@ -76,10 +76,10 @@ jobs:
         UseVariableForMessage: true
         Message: |
           'test Message...  $(date:yyyyMMdd)$(rev:.r) !!'
-          echo $(SLACKTOCKEN)
-          $(SLACKTOCKEN) - ooo
+          echo $(GITHUBTOCKEN)
+          $(GITHUBTOCKEN) - ooo
       env:
-        SLACKTOCKEN : $(SLACKTOCKEN)    
+        SLACKTOCKEN : $(GITHUBTOCKEN)    
         # FooterText: 'aaaaaaaaaaaaaaaa'
 
     # - task: SlackNotification@6
