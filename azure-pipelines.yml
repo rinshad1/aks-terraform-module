@@ -81,7 +81,7 @@ jobs:
         # UseVariableForMessage: true
         Message: |
           Test message... $(Build.BuildId) $(Build.BuildNumber) !!
-          pwd = $($pwd)
+          pwd = $(pwd)
       env:
         SLACKTOCKEN : $(GITHUBTOCKEN)    
         # FooterText: 'aaaaaaaaaaaaaaaa'
