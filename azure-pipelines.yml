@@ -75,9 +75,7 @@ jobs:
         NotificationType: 'ChatMessage'
         UseVariableForMessage: true
         Message: |
-          'test Message...  $(date:yyyyMMdd)$(rev:.r) !!'
-          echo $(GITHUBTOCKEN)
-          $(GITHUBTOCKEN) - ooo
+          Test message... $(Build.BuildId) $(Build.BuildNumber) !!
       env:
         SLACKTOCKEN : $(GITHUBTOCKEN)    
         # FooterText: 'aaaaaaaaaaaaaaaa'
