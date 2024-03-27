@@ -14,7 +14,7 @@ vm_size                   = "Standard_DS2_v2"
 enable_auto_scaling       = "true"
 max_count                 = 5
 min_count                 = "4"
-os_disk_size_gb           = 30
+os_disk_size_gb           = 70
 node_pool_type            = "VirtualMachineScaleSets"
 zones                     = [1, 2, 3]
 
