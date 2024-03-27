@@ -69,29 +69,37 @@ jobs:
       displayName: 'Post comment on pull request'
 
     - powershell: |
-        $jsonFile = /tmp/infracost.json
-        $jsonContent = Get-Content $jsonFile -Raw
+        $jsonFile = "path/to/your/json/file.json"
 
-        # Check if the content is valid JSON
-        try {
-            $jsonObject = $jsonContent
-            $isJson = $true
-        }
-        catch {
-            $isJson = $false
-        }
+        if (Test-Path $jsonFile) {
+            $jsonContent = Get-Content $jsonFile -Raw
 
-        if ($isJson) {
-            $message = "The contents of the JSON file are:"
-            $message += "`n$jsonContent"
+            # Check if the content is valid JSON
+            try {
+                $jsonObject = $jsonContent | ConvertFrom-Json
+                $isJson = $true
+            }
+            catch {
+                $isJson = $false
+            }
+
+            if ($isJson) {
+                $message = "The contents of the JSON file are:"
+                $message += "`n$jsonContent"
+            }
+            else {
+                $message = "The file is not valid JSON."
+            }
+
+            Write-Host $message
+            Write-Output ("##vso[task.setvariable variable=isJson;isOutput=true]$isJson")
+            Write-Output ("##vso[task.setvariable variable=message;isOutput=true]$message")
         }
         else {
-            $message = "The file is not valid JSON."
+            Write-Host "The specified JSON file does not exist."
+            Write-Output ("##vso[task.setvariable variable=isJson;isOutput=true]$false")
+            Write-Output ("##vso[task.setvariable variable=message;isOutput=true]Error: The specified JSON file does not exist.")
         }
-
-        Write-Host $message
-        Write-Output ("##vso[task.setvariable variable=isJson;isOutput=true]$isJson")
-        Write-Output ("##vso[task.setvariable variable=message;isOutput=true]$message")
       displayName: 'Check JSON File'
 
     - task: SlackNotification@6
