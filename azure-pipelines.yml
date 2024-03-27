@@ -67,6 +67,11 @@ jobs:
     - script: |
         gh pr comment $(System.PullRequest.PullRequestNumber) -R $(Build.Repository.Uri) -F /tmp/infracost.json
       displayName: 'Post comment on pull request'
+
+    - powershell: |
+        $currentDirectory = Get-Location
+        Write-Host "##vso[task.setvariable variable=pwd]$currentDirectory"
+      displayName: 'Set Current Directory'  
     - task: SlackNotification@6
       inputs:
         SlackApiToken: $(SLACKTOCKEN)
@@ -76,7 +81,7 @@ jobs:
         # UseVariableForMessage: true
         Message: |
           Test message... $(Build.BuildId) $(Build.BuildNumber) !!
-          pwd = $(pwd)
+          pwd = $($pwd)
       env:
         SLACKTOCKEN : $(GITHUBTOCKEN)    
         # FooterText: 'aaaaaaaaaaaaaaaa'
