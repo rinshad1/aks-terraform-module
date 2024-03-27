@@ -65,6 +65,7 @@ jobs:
       displayName: 'Authenticate with GitHub'
 
     - script: |
+        pwd
         gh pr comment $(System.PullRequest.PullRequestNumber) -R $(Build.Repository.Uri) -F /tmp/infracost.json
       displayName: 'Post comment on pull request'
 
