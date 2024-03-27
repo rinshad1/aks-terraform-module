@@ -74,8 +74,8 @@ jobs:
         Channel: '#test-channel'
         NotificationType: 'ChatMessage'
         UseVariableForMessage: true
-        Message: 'echo test Message...  $(date:yyyyMMdd)$(rev:.r) !!'
-        FooterText: 'aaaaaaaaaaaaaaaa'
+        Message: 'test Message...  $(date:yyyyMMdd)$(rev:.r) !!'
+        # FooterText: 'aaaaaaaaaaaaaaaa'
 
     # - task: SlackNotification@6
     #   inputs:
