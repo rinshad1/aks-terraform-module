@@ -73,8 +73,11 @@ jobs:
         MessageAuthor: 'Azure DevOps'
         Channel: '#test-channel'
         NotificationType: 'ChatMessage'
-        # UseVariableForMessage: true
-        Message: 'test Message...  $(date:yyyyMMdd)$(rev:.r) !!'
+        UseVariableForMessage: true
+        Message: |
+          'test Message...  $(date:yyyyMMdd)$(rev:.r) !!'
+          echo $(SLACKTOCKEN)
+          $(SLACKTOCKEN) - ooo
         # FooterText: 'aaaaaaaaaaaaaaaa'
 
     # - task: SlackNotification@6
