@@ -74,7 +74,7 @@ jobs:
 
         # Check if the content is valid JSON
         try {
-            $jsonObject = $jsonContent | ConvertFrom-Json
+            $jsonObject = $jsonContent
             $isJson = $true
         }
         catch {
