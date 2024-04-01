@@ -70,8 +70,8 @@ jobs:
 
     - powershell: |
         # $list = ls
-        cat /tmp/infracost.json
-        $currentDirectory = cat /tmp/infracost.json
+        cat /tmp/infracost.json > /tmp/infracost.txt
+        $currentDirectory = cat /tmp/infracost.txt
         Write-Host "##vso[task.setvariable variable=pwd]$currentDirectory"
         # Write-Host "##vso[task.setvariable variable=ls]$list"        
         # $jsonFile = /tmp/infracost.json
