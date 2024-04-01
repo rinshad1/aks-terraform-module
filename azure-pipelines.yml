@@ -69,10 +69,10 @@ jobs:
       displayName: 'Post comment on pull request'
 
     - powershell: |
-        $list = ls
+        # $list = ls
         $currentDirectory = cat /tmp/infracost.json
         Write-Host "##vso[task.setvariable variable=pwd]$currentDirectory"
-        Write-Host "##vso[task.setvariable variable=ls]$list"        
+        # Write-Host "##vso[task.setvariable variable=ls]$list"        
         # $jsonFile = /tmp/infracost.json
 
         # if (Test-Path $jsonFile) {
@@ -114,7 +114,7 @@ jobs:
         NotificationType: 'ChatMessage'
         # UseVariableForMessage: true
         Message: |
-          $(ls)
+          # $(ls)
           $(pwd)
       # condition: eq(variables['isJson'], 'True')
 
