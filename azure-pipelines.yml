@@ -112,7 +112,7 @@ jobs:
         UseVariableForMessage: true
         Message: |
           $(message)
-      condition: eq(variables['isJson'], 'True')
+      # condition: eq(variables['isJson'], 'True')
 
       # env:
       #   SLACKTOCKEN : $(GITHUBTOCKEN)    
