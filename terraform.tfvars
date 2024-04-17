@@ -22,5 +22,5 @@ network_plugin            = "azure"
 load_balancer_sku         = "standard"
 outbound_type             = "loadBalancer"
 
-subscription              = "/subscriptions/xxxx-subscription_id-xxxx"
+subscription              = "/subscriptions/a1959dd9-b11d-4f5c-aa2e-e85c59dbe727"
 role_definition           = "Contributor"
