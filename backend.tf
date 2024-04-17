@@ -2,7 +2,7 @@ terraform {
   backend "azurerm" {
     resource_group_name  = "RG-Rinshad"
     storage_account_name = "backend4rinshad"
-    container_name       = "tfstate"
+    container_name       = "tfstate2"
     key                  = "terraform.tfstate"
     client_id       = "9e0cf4d7-dad9-4bf5-8427-74c4c1a7cc39"
     client_secret   = "pVa8Q~-H1-0sNp1F478XVgLqRs5.WB33fkTWYa83"
